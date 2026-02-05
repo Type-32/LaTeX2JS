@@ -1,24 +1,20 @@
 {
   "name": "@type32/latex2vue",
-  "version": "3.1.5",
+  "version": "3.1.8",
   "description": "[FORK] Vue components for LaTeX2JS",
   "author": "Dan Lynch <pyramation@gmail.com>, Type-32",
   "homepage": "https://github.com/Type-32/LaTeX2JS",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "index.js",
-  "module": "esm/index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./esm/index.js",
-      "require": "./index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public",
-    "directory": "dist"
   },
   "repository": {
     "type": "git",
@@ -35,9 +31,10 @@
     "vue.js"
   ],
   "scripts": {
-    "copy": "copyfiles -f ../../LICENSE README.md package.json src/vue-shims.d.ts dist && copyfiles -u 1 src/latex.vue src/components/**/* dist/ && copyfiles -u 1 src/latex.vue src/components/**/* dist/esm/",
+    "copy": "copyfiles -f ../../LICENSE README.md src/vue-shims.d.ts dist && copyfiles -u 1 src/latex.vue src/components/**/* dist/ && copyfiles -u 1 src/latex.vue src/components/**/* dist/esm/",
+    "prepare-pkg": "node -e \"const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('package.json'));pkg.main='index.js';pkg.module='esm/index.js';pkg.types='index.d.ts';pkg.exports={'.': {types:'./index.d.ts',import:'./esm/index.js',require:'./index.js'},'./package.json':'./package.json'};delete pkg.scripts;delete pkg.devDependencies;fs.writeFileSync('dist/package.json',JSON.stringify(pkg,null,2))\"",
     "clean": "rimraf dist",
-    "build": "pnpm run clean && tsc && tsc -p tsconfig.esm.json && pnpm run copy",
+    "build": "pnpm run clean && tsc && tsc -p tsconfig.esm.json && pnpm run copy && pnpm run prepare-pkg",
     "build:dev": "pnpm run clean && tsc --declarationMap && tsc -p tsconfig.esm.json && pnpm run copy",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -47,18 +44,17 @@
     "url": "https://github.com/Type-32/LaTeX2JS/issues"
   },
   "devDependencies": {
-    "vue-tsc": "^1.8.0"
+    "vue-tsc": "3.2.4"
   },
   "dependencies": {
-    "@latex2js/macros": "workspace:^",
-    "@latex2js/pstricks": "workspace:^",
-    "@latex2js/utils": "workspace:^",
+    "@latex2js/macros": "3.0.10",
+    "@latex2js/pstricks": "3.1.4",
+    "@latex2js/utils": "3.0.12",
     "latex2js": "^3.1.4",
-    "mathjaxjs": "workspace:^",
-    "vue": "^3.3.0"
+    "mathjaxjs": "3.0.10",
+    "vue": "3.5.27"
   },
   "peerDependencies": {
     "vue": ">=3.0.0"
-  },
-  "gitHead": "53db1d50a534274273c2b1b7cceed210fdc9fdea"
+  }
 }

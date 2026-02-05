@@ -1,5 +1,5 @@
 <template>
-  <span latex="true" v-html="text" class="latex-math"></span>
+  <p class="latex-paragraph" v-html="text"></p>
 </template>
 
 <script setup lang="ts">
@@ -12,12 +12,14 @@ interface Props {
 const props = defineProps<Props>();
 
 const text = computed(() => {
-  return props.lines.join('\n');
+  return props.lines.join(' ').trim();
 });
 </script>
 
 <style scoped>
-.latex-math {
-  display: inline;
+.latex-paragraph {
+  margin: 1em 0;
+  line-height: 1.6;
+  text-align: justify;
 }
 </style>

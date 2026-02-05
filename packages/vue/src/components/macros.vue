@@ -1,11 +1,9 @@
 <template>
-  <div id="latex-macros" style="display:none" />
+  <div style="display: none;" id="latex-macros" v-html="macros"></div>
 </template>
-<script>
-import macroStr from '@latex2js/macros';
-export default {
-  mounted() {
-    this.$el.innerHTML = macroStr;
-  },
-};
+
+<script setup lang="ts">
+import baseMacros from '@latex2js/macros';
+
+const macros = baseMacros;
 </script>

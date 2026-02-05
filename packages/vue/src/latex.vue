@@ -22,7 +22,7 @@ import nicebox from './components/nicebox.vue';
 import enumerate from './components/enumerate.vue';
 import verbatim from './components/verbatim.vue';
 import slider from './components/slider.vue';
-import math from './components/math.vue';
+import latexMath from './components/math.vue';
 import macros from './components/macros.vue';
 
 export default {
@@ -33,7 +33,7 @@ export default {
     enumerate,
     verbatim,
     slider,
-    math,
+    math: latexMath,
     macros,
   },
   beforeMount() {
@@ -44,7 +44,7 @@ export default {
     }
 
     if (getMathJax()) {
-	  this.loaded = true;
+	    this.loaded = true;
       return;
     }
     loadMathJax(() => {
@@ -52,9 +52,36 @@ export default {
     });
   },
   mounted(){
-  	let MathJax = getMathJax();
-	if (MathJax != undefined)
-	MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    this.typesetMath();
+  },
+  updated() {
+    this.typesetMath();
+  },
+  watch: {
+    loaded(newVal) {
+      if (newVal) {
+        this.typesetMath();
+      }
+    }
+  },
+  methods: {
+    typesetMath() {
+      this.$nextTick(() => {
+        const MathJax = getMathJax();
+        if (!MathJax) return;
+        
+        // MathJax v3 API
+        if (MathJax.typesetPromise) {
+          MathJax.typesetPromise([this.$el]).catch((err) => {
+            console.error('MathJax typeset error:', err);
+          });
+        }
+        // Fallback to MathJax v2 API
+        else if (MathJax.Hub && MathJax.Hub.Queue) {
+          MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.$el]);
+        }
+      });
+    }
   },
   data() {
     return {
@@ -64,9 +91,17 @@ export default {
   },
   computed: {
     items() {
-      const latex = new LaTeX2JS();
-      const parsed = latex.parse(this.$attrs.content);
-      return this.loaded ? parsed : [];
+      if (!this.loaded) {
+        return [];
+      }
+      try {
+        const latex = new LaTeX2JS();
+        const parsed = latex.parse(this.$attrs.content || '');
+        return parsed;
+      } catch (error) {
+        console.error('LaTeX parsing error:', error);
+        return [];
+      }
     },
   },
 };

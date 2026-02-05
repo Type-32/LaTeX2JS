@@ -1,6 +1,6 @@
 {
   "name": "@type32/latex2vue",
-  "version": "3.1.8",
+  "version": "3.1.9",
   "description": "[FORK] Vue components for LaTeX2JS",
   "author": "Dan Lynch <pyramation@gmail.com>, Type-32",
   "homepage": "https://github.com/Type-32/LaTeX2JS",

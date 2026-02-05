@@ -31,8 +31,8 @@
   "scripts": {
     "copy": "copyfiles -f ../../LICENSE README.md package.json latex2js.css latex2js.mathapedia.css dist",
     "clean": "rimraf dist",
-    "build": "pnpm run clean && tsc && tsc -p tsconfig.esm.json && pnpm run copy && cp latex2js.css ../../bundle/latex2js.css",
-    "build:dev": "pnpm run clean && tsc --declarationMap && tsc -p tsconfig.esm.json && pnpm run copy",
+    "build": "bun run clean && tsc && tsc -p tsconfig.esm.json && bun run copy && cp latex2js.css ../../bundle/latex2js.css",
+    "build:dev": "bun run clean && tsc --declarationMap && tsc -p tsconfig.esm.json && bun run copy",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"

@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { processTextWithMath } from '../../lib/latex-to-html.js';
 
 interface Props {
   lines: string[];
@@ -15,7 +16,8 @@ interface Props {
 const props = defineProps<Props>();
 
 const text = computed(() => {
-  return props.lines.join('\n').trim();
+  const raw = props.lines.join('\n').trim();
+  return processTextWithMath(raw);
 });
 </script>
 

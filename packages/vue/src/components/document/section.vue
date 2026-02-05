@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { processTextWithMath } from '../../lib/latex-to-html.js';
 
 interface Props {
   lines: string[];
@@ -31,11 +32,12 @@ const headingTag = computed(() => {
 const title = computed(() => {
   const firstLine = props.lines[0] || '';
   const match = firstLine.match(/\\(?:sub)?section\{([^}]+)\}/);
-  return match ? match[1] : '';
+  return match ? processTextWithMath(match[1]) : '';
 });
 
 const content = computed(() => {
-  return props.lines.slice(1).join('\n').trim();
+  const raw = props.lines.slice(1).join('\n').trim();
+  return processTextWithMath(raw);
 });
 </script>
 

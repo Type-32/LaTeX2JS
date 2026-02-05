@@ -1,0 +1,274 @@
+/* LaTeX Document Styling */
+
+.latex-container {
+  max-width: 210mm; /* A4 width */
+  margin: 0 auto;
+  padding: 20mm;
+  background: white;
+  font-family: 'Computer Modern', 'Latin Modern', 'Times New Roman', Georgia, serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #000;
+}
+
+/* Typography */
+.latex-container p {
+  text-align: justify;
+  margin: 1em 0;
+  hyphens: auto;
+}
+
+.latex-container h1,
+.latex-container h2,
+.latex-container h3,
+.latex-container h4,
+.latex-container h5,
+.latex-container h6 {
+  font-weight: bold;
+  line-height: 1.2;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Document metadata */
+.latex-title {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  margin: 1em 0 0.5em 0;
+}
+
+.latex-author {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+
+.latex-date {
+  text-align: center;
+  font-size: 1em;
+  margin: 0.5em 0 2em 0;
+  color: #666;
+}
+
+/* Abstract */
+.latex-abstract {
+  margin: 2em 0;
+  padding: 1.5em;
+  background-color: #f9f9f9;
+  border-left: 4px solid #007bff;
+}
+
+.abstract-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+/* Sections */
+.latex-section {
+  margin: 2em 0 1em 0;
+}
+
+.latex-section-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  counter-increment: section;
+}
+
+.latex-section-title::before {
+  content: counter(section) ". ";
+}
+
+.latex-subsection {
+  margin: 1.5em 0 0.5em 0;
+}
+
+.latex-subsection-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  counter-increment: subsection;
+}
+
+.latex-subsection-title::before {
+  content: counter(section) "." counter(subsection) " ";
+}
+
+/* Lists */
+.latex-enumerate,
+.latex-itemize {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.latex-enumerate li,
+.latex-itemize li {
+  margin: 0.5em 0;
+}
+
+/* Tables */
+.latex-table-wrapper {
+  margin: 1.5em auto;
+  overflow-x: auto;
+  page-break-inside: avoid;
+}
+
+.latex-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  min-width: 50%;
+}
+
+.latex-table td,
+.latex-table th {
+  padding: 0.5em 1em;
+  border: 1px solid #333;
+  text-align: center;
+}
+
+.latex-table .table-header {
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.table-caption {
+  text-align: center;
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+/* Figures */
+.latex-figure {
+  margin: 1.5em auto;
+  text-align: center;
+  page-break-inside: avoid;
+}
+
+.figure-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.figure-caption {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Color boxes (tcolorbox) */
+.latex-colorbox {
+  margin: 1.5em 0;
+  padding: 1em;
+  border-radius: 4px;
+  page-break-inside: avoid;
+}
+
+/* Multi-column layouts */
+.latex-multicols {
+  column-gap: 2em;
+  column-rule: 1px solid #ddd;
+}
+
+/* Verbatim (code blocks) */
+.latex-verbatim {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1em;
+  margin: 1em 0;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+}
+
+/* Math */
+.latex-math {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1em 0;
+}
+
+/* Nicebox */
+.latex-nicebox {
+  padding: 1.5em;
+  margin: 1.5em 0;
+  border: 2px solid #42b983;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #f0f9f4, #e8f5ea);
+}
+
+/* Print styles */
+@media print {
+  .latex-container {
+    margin: 0;
+    padding: 0;
+  }
+
+  .latex-section,
+  .latex-subsection,
+  .latex-figure,
+  .latex-table-wrapper,
+  .latex-colorbox {
+    page-break-inside: avoid;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .latex-container {
+    padding: 1em;
+    font-size: 10pt;
+  }
+
+  .latex-multicols {
+    column-count: 1 !important;
+  }
+}
+
+/* Counter resets */
+.latex-container {
+  counter-reset: section subsection figure table equation;
+}
+
+.latex-section {
+  counter-reset: subsection;
+}
+
+/* Reference links */
+a.latex-ref {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a.latex-ref:hover {
+  text-decoration: underline;
+}
+
+/* Citations */
+.latex-cite {
+  font-size: 0.9em;
+  vertical-align: super;
+}
+
+/* Bibliography */
+.latex-bibliography {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #333;
+}
+
+.latex-bibliography h2 {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.latex-bibitem {
+  margin: 0.5em 0;
+  padding-left: 2em;
+  text-indent: -2em;
+}

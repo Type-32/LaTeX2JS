@@ -1,11 +1,66 @@
 # @type32/latex2vue
 
-Vue.js components for LaTeX rendering with full support for mathematical notation, PSTricks graphics, and interactive elements.
+Vue.js components for **full LaTeX document rendering** with support for mathematical notation, PSTricks graphics, tables, figures, and complete document structures.
+
+## ⭐ What's New in v3.2.0
+
+- 🎉 **Full LaTeX document rendering** - Render complete academic papers and reports
+- 📄 Document structure support (title, author, abstract, sections)
+- 📊 Tables with proper formatting and captions
+- 🖼️ Figure environments with captions
+- 📰 Multi-column layouts
+- 🎨 Color boxes (tcolorbox support)
+- 💅 Modern TypeScript + Vue 3 Composition API
+- 🎯 Automatic parser detection (documents vs snippets)
 
 ## Installation
 
 ```bash
 npm install @type32/latex2vue
+```
+
+## Quick Start
+
+### Full Document Rendering
+
+```vue
+<template>
+  <Latex :content="document" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { Latex } from '@type32/latex2vue';
+import '@type32/latex2vue/styles/latex-document.css';
+
+const document = ref(`
+\\documentclass[11pt,a4paper]{article}
+\\usepackage{amsmath}
+
+\\title{My Research Paper}
+\\author{Your Name}
+\\date{\\today}
+
+\\begin{document}
+
+\\maketitle
+
+\\begin{abstract}
+This is the abstract of my paper.
+\\end{abstract}
+
+\\section{Introduction}
+Your introduction here with inline math $E = mc^2$.
+
+\\section{Methods}
+\\begin{enumerate}
+\\item First step
+\\item Second step
+\\end{enumerate}
+
+\\end{document}
+`);
+</script>
 ```
 
 ## Features

@@ -1,5 +1,5 @@
 <template>
-  <div class="latex-container">
+  <div ref="rootEl" class="latex-container">
     <Macros v-if="!useMacros" />
     <component
       v-for="(item, id) in items"
@@ -14,6 +14,7 @@
 import { ref, computed, onBeforeMount, onMounted, nextTick, watch } from 'vue';
 import LaTeX2JS from 'latex2js';
 import { getMathJax, loadMathJax } from 'mathjaxjs';
+import { parseDocument } from './lib/document-parser.js';
 import Pspicture from './components/pspicture.vue';
 import Nicebox from './components/nicebox.vue';
 import Enumerate from './components/enumerate.vue';
@@ -97,11 +98,21 @@ watch(() => props.content, () => {
   nextTick(() => typesetMath());
 });
 
+const isFullDocument = computed(() => {
+  return props.content.includes('\\documentclass') || props.content.includes('\\begin{document}');
+});
+
 const items = computed(() => {
   if (!loaded.value) {
     return [];
   }
   try {
+    // Use document parser for full LaTeX documents
+    if (isFullDocument.value) {
+      return parseDocument(props.content || '');
+    }
+    
+    // Use original parser for snippets
     const latex = new LaTeX2JS();
     const parsed = latex.parse(props.content || '');
     return parsed;
@@ -136,10 +147,8 @@ defineExpose({
 });
 </script>
 
+<style src="../styles/latex-document.css"></style>
+
 <style scoped>
-.latex-container {
-  font-family: 'Computer Modern', 'Latin Modern', Georgia, serif;
-  line-height: 1.6;
-  color: #000;
-}
+/* Component-specific overrides can go here */
 </style>

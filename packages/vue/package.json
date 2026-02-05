@@ -1,8 +1,8 @@
 {
   "name": "@type32/latex2vue",
-  "version": "3.1.10",
+  "version": "3.1.18",
   "description": "[FORK] Vue components for LaTeX2JS",
-  "author": "Dan Lynch <pyramation@gmail.com>, Type-32",
+  "author": "Dan Lynch <pyramation@gmail.com>, Type-32 <type32alt@outlook.com>",
   "homepage": "https://github.com/Type-32/LaTeX2JS",
   "license": "SEE LICENSE IN LICENSE",
   "main": "dist/index.js",
@@ -15,6 +15,13 @@
       "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
   },
   "repository": {
     "type": "git",
@@ -31,11 +38,13 @@
     "vue.js"
   ],
   "scripts": {
-    "copy": "copyfiles -f ../../LICENSE README.md src/vue-shims.d.ts dist && copyfiles -u 1 src/latex.vue src/components/**/* dist/ && copyfiles -u 1 src/latex.vue src/components/**/* dist/esm/",
-    "prepare-pkg": "node -e \"const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('package.json'));pkg.main='index.js';pkg.module='esm/index.js';pkg.types='index.d.ts';pkg.exports={'.': {types:'./index.d.ts',import:'./esm/index.js',require:'./index.js'},'./package.json':'./package.json'};delete pkg.scripts;delete pkg.devDependencies;fs.writeFileSync('dist/package.json',JSON.stringify(pkg,null,2))\"",
+    "copy": "copyfiles -f ../../LICENSE README.md src/vue-shims.d.ts dist && copyfiles -u 1 \"src/**/*.vue\" \"src/**/*.css\" dist/ && copyfiles -u 1 \"src/**/*.vue\" \"src/**/*.css\" dist/esm/",
+    "prepare-pkg": "node -e \"const fs=require('fs');const pkg=JSON.parse(fs.readFileSync('package.json'));pkg.main='index.js';pkg.module='esm/index.js';pkg.types='index.d.ts';pkg.exports={'.': {types:'./index.d.ts',import:'./esm/index.js',require:'./index.js'},'./package.json':'./package.json'};delete pkg.scripts;delete pkg.devDependencies;delete pkg.publishConfig;delete pkg.files;fs.writeFileSync('dist/package.json',JSON.stringify(pkg,null,2))\"",
     "clean": "rimraf dist",
-    "build": "pnpm run clean && tsc && tsc -p tsconfig.esm.json && pnpm run copy && pnpm run prepare-pkg",
-    "build:dev": "pnpm run clean && tsc --declarationMap && tsc -p tsconfig.esm.json && pnpm run copy",
+    "build": "bun run clean && tsc && tsc -p tsconfig.esm.json && bun run copy && bun run prepare-pkg",
+    "build:dev": "bun run clean && tsc --declarationMap && tsc -p tsconfig.esm.json && bun run copy",
+    "publish": "bun run build && cd dist && bun publish",
+    "publish:next": "bun run build && cd dist && bun publish --tag next",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
